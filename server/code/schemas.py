@@ -9,12 +9,8 @@ class PostRemoveItem(BaseModel):
     class Config:
         orm_mode = True
 
-
+# TODO Можно использовать для создания постов
 class Post(PostRemoveItem):
-    pass
-
-
-class SearchPostItem(BaseModel):
     text: str
 
     class Config:
