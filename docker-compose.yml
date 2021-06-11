@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+       - ./database/postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'pgadmin4@pgadmin.org'
+      PGADMIN_DEFAULT_PASSWORD: 'admin'
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - ./database/pgadmin:/root/.pgadmin
+
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+
+  fastapi:
+    build: server/.
+    ports:
+      - "5000:5000"
+    restart: on-failure
+    environment:
+      DB_CONNECTION: ${DB_CONNECTION}
+    volumes:
+      - ./server/code/:/app/code/
