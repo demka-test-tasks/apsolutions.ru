@@ -2,8 +2,20 @@ from typing import List, Optional
 from datetime import datetime
 from pydantic import BaseModel
 
-class PostToRemove(BaseModel):
+
+class PostRemoveItem(BaseModel):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+class Post(PostRemoveItem):
     pass
 
-class Post(BaseModel):
-    pass
+
+class SearchPostItem(BaseModel):
+    text: str
+
+    class Config:
+        orm_mode = True
