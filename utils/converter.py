@@ -26,7 +26,7 @@ def elastic_insert_logic(file_name: str):
     df["id"] = df.index + 1
     print(df)
 
-    #Добавляем все в новый индекс INDEX
+    # Добавляем все в новый индекс INDEX
     e = Elasticsearch("http://localhost:9200")
     if e.indices.exists(INDEX):
         e.indices.delete(index=INDEX)
@@ -68,6 +68,7 @@ def main():
     file_name = "./posts.csv"
     postgres_insert_logic(file_name)
     elastic_insert_logic(file_name)
+
 
 if __name__ == "__main__":
     main()

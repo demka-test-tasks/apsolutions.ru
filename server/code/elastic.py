@@ -1,6 +1,7 @@
+from typing import List, Union
+
 import elasticsearch
 from elasticsearch import Elasticsearch
-from typing import List, Union
 
 
 class MyElastic:
@@ -11,6 +12,7 @@ class MyElastic:
     def search_by_id(self, id: int) -> Union[list, None]:
         """Поиск элемента по идентификатору СУБД"""
         result = self.__connection.search(index=self.__index, body={
+            "size": 1,
             "query": {
                 "match": {
                     'id': id
@@ -39,6 +41,7 @@ class MyElastic:
         Поиск постов по тексту, возвращает список элементов БД
         """
         result = self.__connection.search(index=self.__index, body={
+            "size": 20,
             "query": {
                 "match": {
                     'text': text
@@ -47,9 +50,3 @@ class MyElastic:
         })
         result_ids = [{"id_": item["_id"], "id": item["_source"]["id"]} for item in result["hits"]["hits"]]
         return result_ids
-
-
-if __name__ == "__main__":
-    e = MyElastic()
-    r = e.search_by_id(1)
-    print(r)

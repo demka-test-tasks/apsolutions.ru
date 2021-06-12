@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: postgres
       PGDATA: /data/postgres
     volumes:
-       - ./database/postgres:/data/postgres
+      - ./database/postgres:/data/postgres
     ports:
       - "5432:5432"
     restart: unless-stopped
@@ -22,7 +22,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: 'admin'
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-       - ./database/pgadmin:/root/.pgadmin
+      - ./database/pgadmin:/root/.pgadmin
 
     ports:
       - "5050:80"

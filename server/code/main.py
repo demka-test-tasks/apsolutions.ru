@@ -1,17 +1,13 @@
 # coding=utf-8
-from datetime import datetime
-import shutil
-from typing import List, Union
 
-import os
+import uvicorn
+from fastapi import Depends, FastAPI
+from sqlalchemy.orm import Session
+
 import crud
-import schemas
 import models
 import schemas
-import uvicorn
 from database import SessionLocal, engine
-from fastapi import Depends, FastAPI, HTTPException, File, UploadFile, Form
-from sqlalchemy.orm import Session
 
 models.Base.metadata.create_all(bind=engine)
 

@@ -1,8 +1,7 @@
-import models
-import schemas
-from elastic import MyElastic
 from sqlalchemy.orm import Session
-from sqlalchemy import update
+
+import models
+from elastic import MyElastic
 
 my_elastic = MyElastic()
 
@@ -12,14 +11,13 @@ def search_post_by_text(db: Session, search_text: str):
     """Поиск по тексту документа и возврат первых 20 документов со всем полями, упорядоченные по дате создания"""
     # Поиск в elastic
     id_list = [item["id"] for item in my_elastic.search_by_text(search_text)]
-    print(id_list)
     # Получение полей СУБД с id, которые отдал нам elastic
     result = db.query(models.Post) \
         .filter(models.Post.id.in_(id_list)) \
         .order_by(models.Post.created_date.desc()) \
-        .limit(20) \
         .all()
     return result
+
 
 def delete_by_id(db: Session, id: int) -> bool:
     """Удаление поста по переданному id"""
