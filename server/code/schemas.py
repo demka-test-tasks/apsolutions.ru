@@ -1,5 +1,5 @@
 from typing import List, Optional
-from datetime import datetime
+import datetime
 from pydantic import BaseModel
 
 
@@ -9,9 +9,12 @@ class PostRemoveItem(BaseModel):
     class Config:
         orm_mode = True
 
-# TODO Можно использовать для создания постов
+
+# Можно использовать для создания постов в дальнейшем
 class Post(PostRemoveItem):
     text: str
+    rubrics: List[str]
+    created_date: datetime.datetime
 
     class Config:
         orm_mode = True

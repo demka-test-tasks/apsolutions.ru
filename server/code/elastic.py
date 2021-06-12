@@ -1,14 +1,55 @@
+import elasticsearch
 from elasticsearch import Elasticsearch
+from typing import List, Union
 
-class Elastic:
-    def __init__(self, connection_str: str = "http://localhost:9200"):
-        self.connection = Elasticsearch(connection_str)
 
-    def delete_index(self, id: int):
-        self.connection
-        """DELETE http://localhost:9200/posts/_doc/4yT__3kBMrhp05kiQYwf"""
-        """DELETE /my-index-000001/_doc/1?routing=shard-1"""
+class MyElastic:
+    def __init__(self, connection_str: str = "http://localhost:9200", index: str = "posts"):
+        self.__connection = Elasticsearch(connection_str)
+        self.__index = index
 
-    def search_index(self, text : str):
-        pass
-        """http://localhost:9200/posts/_search?q=привет"""
+    def search_by_id(self, id: int) -> Union[list, None]:
+        """Поиск элемента по идентификатору СУБД"""
+        result = self.__connection.search(index=self.__index, body={
+            "query": {
+                "match": {
+                    'id': id
+                }
+            }
+        })["hits"]["hits"]
+
+        # Если ничего не нашли
+        if len(result) == 0:
+            return None
+        # Если результат есть
+        return result
+
+    def delete_by_id(self, id: int) -> bool:
+        """
+        Удаление элементов индекса по внутреннему _id
+        """
+        try:
+            self.__connection.delete(index=self.__index, doc_type="record", id=id)
+            return True
+        except elasticsearch.exceptions.NotFoundError:
+            return False
+
+    def search_by_text(self, text: str) -> List[dict]:
+        """
+        Поиск постов по тексту, возвращает список элементов БД
+        """
+        result = self.__connection.search(index=self.__index, body={
+            "query": {
+                "match": {
+                    'text': text
+                }
+            }
+        })
+        result_ids = [{"id_": item["_id"], "id": item["_source"]["id"]} for item in result["hits"]["hits"]]
+        return result_ids
+
+
+if __name__ == "__main__":
+    e = MyElastic()
+    r = e.search_by_id(1)
+    print(r)

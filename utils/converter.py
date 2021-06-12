@@ -28,11 +28,15 @@ def elastic_insert_logic(file_name: str):
 
     #Добавляем все в новый индекс INDEX
     e = Elasticsearch("http://localhost:9200")
-    e.indices.delete(index=INDEX)
+    if e.indices.exists(INDEX):
+        e.indices.delete(index=INDEX)
     e.indices.create(index=INDEX)
+
     r = e.bulk(df2elastic_converter(df))
     if not r["errors"]:
         print("Успешно записал данные в elastic")
+    else:
+        print("Не удалось записать данные в elastic")
 
 
 def postgres_insert_logic(file_name: str):
