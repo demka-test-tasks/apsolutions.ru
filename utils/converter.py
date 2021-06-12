@@ -41,7 +41,7 @@ def elastic_insert_logic(file_name: str):
 
 def postgres_insert_logic(file_name: str):
     """Добавление данных в Postgres"""
-    conn = psycopg2.connect("postgresql://postgres:postgres@127.0.0.1:5432/test_task")
+    conn = psycopg2.connect("postgresql://postgres:postgres@127.0.0.1:5432/postgres")
     cur = conn.cursor()
 
     cur.execute("DROP TABLE IF EXISTS posts;")

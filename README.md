@@ -14,6 +14,8 @@
 
 HTTP-запросы можно тестировать через Postman
 
+Также развернуты контейнеры [PgAdmin](http://127.0.0.1:5050/) (host=postgres, password=postgres, user=postgres) и [Kibana](http://127.0.0.1:5601/)
+
 # Само задание
 
 Ссылка на тестовый массива
