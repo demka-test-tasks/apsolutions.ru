@@ -5,21 +5,23 @@ services:
     container_name: postgres_container
     image: postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: /data/postgres
     volumes:
       - ./database/postgres:/data/postgres
     ports:
       - "5432:5432"
     restart: unless-stopped
+    networks:
+      - mynetwork
 
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: 'pgadmin4@pgadmin.org'
-      PGADMIN_DEFAULT_PASSWORD: 'admin'
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - ./database/pgadmin:/root/.pgadmin
@@ -27,16 +29,22 @@ services:
     ports:
       - "5050:80"
     restart: unless-stopped
+    networks:
+      - mynetwork
 
   fastapi:
+    platform: linux/x86_64
     build: server/.
     ports:
-      - "5000:5000"
+      - "8000:8000"
     restart: on-failure
     environment:
-      DB_CONNECTION: ${DB_CONNECTION}
+      SERVER_ELASTIC_CONNECTION: ${SERVER_ELASTIC_CONNECTION}
+      SERVER_POSTGRES_CONNECTION: ${SERVER_POSTGRES_CONNECTION}
     volumes:
       - ./server/code/:/app/code/
+    networks:
+      - mynetwork
 
   es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
@@ -57,7 +65,7 @@ services:
     ports:
       - 9200:9200
     networks:
-      - elastic
+      - mynetwork
 
   es02:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
@@ -76,7 +84,7 @@ services:
     volumes:
       - data02:/usr/share/elasticsearch/data
     networks:
-      - elastic
+      - mynetwork
 
   es03:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.1
@@ -95,7 +103,7 @@ services:
     volumes:
       - data03:/usr/share/elasticsearch/data
     networks:
-      - elastic
+      - mynetwork
 
   kib01:
     image: docker.elastic.co/kibana/kibana:7.13.1
@@ -106,7 +114,7 @@ services:
       ELASTICSEARCH_URL: http://es01:9200
       ELASTICSEARCH_HOSTS: '["http://es01:9200","http://es02:9200","http://es03:9200"]'
     networks:
-      - elastic
+      - mynetwork
 
 volumes:
   data01:
@@ -117,5 +125,5 @@ volumes:
     driver: local
 
 networks:
-  elastic:
+  mynetwork:
     driver: bridge

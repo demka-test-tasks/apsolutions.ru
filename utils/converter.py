@@ -15,8 +15,8 @@ INDEX = "posts"
 def df2elastic_converter(df):
     """Конвертация df в формат elastic'а"""
     for record in df.to_dict(orient="records"):
-        yield ('{ "index" : { "_index" : "%s", "_type" : "%s" }}' % (INDEX, "record"))
-        yield (json.dumps(record, default=int))
+        yield '{ "index" : { "_index" : "%s", "_type" : "%s" }}' % (INDEX, "record")
+        yield json.dumps(record, default=int)
 
 
 def elastic_insert_logic(file_name: str):
@@ -27,7 +27,7 @@ def elastic_insert_logic(file_name: str):
     print(df)
 
     # Добавляем все в новый индекс INDEX
-    e = Elasticsearch("http://localhost:9200")
+    e = Elasticsearch("http://127.0.0.1:9200")
     if e.indices.exists(INDEX):
         e.indices.delete(index=INDEX)
     e.indices.create(index=INDEX)
@@ -41,7 +41,7 @@ def elastic_insert_logic(file_name: str):
 
 def postgres_insert_logic(file_name: str):
     """Добавление данных в Postgres"""
-    conn = psycopg2.connect("postgresql://postgres:postgres@localhost:5432/test_task")
+    conn = psycopg2.connect("postgresql://postgres:postgres@127.0.0.1:5432/test_task")
     cur = conn.cursor()
 
     cur.execute("DROP TABLE IF EXISTS posts;")

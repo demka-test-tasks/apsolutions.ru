@@ -42,4 +42,4 @@ def remove_post(remove_item: schemas.PostRemoveItem, db: Session = Depends(get_d
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", reload=False, use_colors=True)
+    uvicorn.run("main:app", host="0.0.0.0", reload=False, use_colors=True)
