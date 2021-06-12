@@ -15,8 +15,8 @@ INDEX = "posts"
 def df2elastic_converter(df):
     """Конвертация df в формат elastic'а"""
     for record in df.to_dict(orient="records"):
-        yield ('{ "index" : { "_index" : "%s", "_type" : "%s" }}' % (INDEX, "record"))
-        yield (json.dumps(record, default=int))
+        yield '{ "index" : { "_index" : "%s", "_type" : "%s" }}' % (INDEX, "record")
+        yield json.dumps(record, default=int)
 
 
 def elastic_insert_logic(file_name: str):

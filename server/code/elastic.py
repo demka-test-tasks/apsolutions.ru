@@ -1,3 +1,4 @@
+import os
 from typing import List, Union
 
 import elasticsearch
@@ -5,7 +6,8 @@ from elasticsearch import Elasticsearch
 
 
 class MyElastic:
-    def __init__(self, connection_str: str = "http://localhost:9200", index: str = "posts"):
+    def __init__(self, index: str = "posts"):
+        connection_str = os.getenv("SERVER_ELASTIC_CONNECTION", None)
         self.__connection = Elasticsearch(connection_str)
         self.__index = index
 
