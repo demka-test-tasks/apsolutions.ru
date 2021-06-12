@@ -1,6 +1,21 @@
 Необходимо написать очень простой поисковик по текстам документов. Данные хранятся в БД по желанию, поисковый индекс в
 эластике.
 
+# Как запустить
+
+1. Скопировать все на локалку - ```git clone https://github.com/demka-test-tasks/notion_so```
+2. Запустить сервис с помощью  ```docker-compose up -d```, подождать, пока postgres и elastic стартанут, fastapi даст
+   ошибку, что нормально
+3. Синхронизировать хранилища с .csv с помощью ```python3 converter.py``` в utils
+4. Сделать рестарт решения с помощью ```docker-compose stop && docker-compose up -d```
+5. Проверить, все ли завелось через ```docker ps```, если не завелось - дайте репорт в issue
+6. Осуществить поиск по тексту - GET http://127.0.0.1:8000/posts/search?text=привет
+7. Осуществить удаление по идентификатору - DELETE http://127.0.0.1:8000/posts/delete, в теле JSON вида: {"id" : 93}
+
+HTTP-запросы можно тестировать через Postman
+
+# Само задание
+
 Ссылка на тестовый массива
 данных: [[csv](https://api.onedrive.com/v1.0/shares/u!aHR0cHM6Ly8xZHJ2Lm1zL3UvcyFBdldqdXEtLW5zblNrYW8yUzVzMnpUTHpNMHBweHc_ZT1RQnJIMGQ/root/content)]
 
