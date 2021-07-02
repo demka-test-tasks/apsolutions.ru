@@ -1,10 +1,8 @@
-import os
-
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SERVER_POSTGRES_CONNECTION = os.getenv("SERVER_POSTGRES_CONNECTION", None)
+from config import SERVER_POSTGRES_CONNECTION
 
 engine = create_engine(SERVER_POSTGRES_CONNECTION, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

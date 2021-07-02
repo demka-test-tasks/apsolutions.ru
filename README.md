@@ -11,11 +11,14 @@
 5. Проверить, все ли завелось через ```docker ps```, если не завелось - дайте репорт в issue
 
 # Как работать
+
 [Документация по API тут](http://127.0.0.1:8000/redoc)
+
 1. Осуществить поиск по тексту - GET http://127.0.0.1:8000/posts/search?text=привет
 2. Осуществить удаление по идентификатору - DELETE http://127.0.0.1:8000/posts/delete, в теле JSON вида: {"id" : 93}
 
-Также развернуты контейнеры [PgAdmin](http://127.0.0.1:5050/) (host=postgres, password=postgres, user=postgres) и [Kibana](http://127.0.0.1:5601/)
+Также развернуты контейнеры [PgAdmin](http://127.0.0.1:5050/) (host=postgres, password=postgres, user=postgres)
+и [Kibana](http://127.0.0.1:5601/)
 
 # Само задание
 

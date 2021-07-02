@@ -11,15 +11,6 @@ RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
 
 ENV LC_ALL en_US.UTF-8
 
-ENV TZ 'Europe/Moscow'
-
-RUN echo $TZ > /etc/timezone && \
-  apt-get update && apt-get install -y tzdata && \
-  rm /etc/localtime && \
-  ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-  dpkg-reconfigure -f noninteractive tzdata && \
-  apt-get clean
-
 RUN \
   apt-get update && \
   apt-get install -y python3 python3-pip python3-dev

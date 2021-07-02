@@ -1,1 +1,141 @@
-{"openapi":"3.0.2","info":{"title":"Test task","description":"My test task","version":"1.0"},"paths":{"/posts/search":{"get":{"summary":"Search Post","description":"Поиск постов по тексту","operationId":"search_post_posts_search_get","parameters":[{"required":true,"schema":{"title":"Text","type":"string"},"name":"text","in":"query"}],"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}},"/posts/delete":{"delete":{"summary":"Remove Post","description":"удалять документ из БД и индекса по полю id.","operationId":"remove_post_posts_delete_delete","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/PostRemoveItem"}}},"required":true},"responses":{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HTTPValidationError"}}}}}}}},"components":{"schemas":{"HTTPValidationError":{"title":"HTTPValidationError","type":"object","properties":{"detail":{"title":"Detail","type":"array","items":{"$ref":"#/components/schemas/ValidationError"}}}},"PostRemoveItem":{"title":"PostRemoveItem","required":["id"],"type":"object","properties":{"id":{"title":"Id","type":"integer"}}},"ValidationError":{"title":"ValidationError","required":["loc","msg","type"],"type":"object","properties":{"loc":{"title":"Location","type":"array","items":{"type":"string"}},"msg":{"title":"Message","type":"string"},"type":{"title":"Error Type","type":"string"}}}}}}
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Test task",
+    "description": "My test task",
+    "version": "1.0"
+  },
+  "paths": {
+    "/posts/search": {
+      "get": {
+        "summary": "Search Post",
+        "description": "Поиск постов по тексту",
+        "operationId": "search_post_posts_search_get",
+        "parameters": [
+          {
+            "required": true,
+            "schema": {
+              "title": "Text",
+              "type": "string"
+            },
+            "name": "text",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts/delete": {
+      "delete": {
+        "summary": "Remove Post",
+        "description": "удалять документ из БД и индекса по полю id.",
+        "operationId": "remove_post_posts_delete_delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PostRemoveItem"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "PostRemoveItem": {
+        "title": "PostRemoveItem",
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

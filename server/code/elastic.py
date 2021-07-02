@@ -35,9 +35,10 @@ class MyElastic:
         try:
             self.__connection.delete(index=self.__index, doc_type="record", id=id)
             return True
-        except elasticsearch.exceptions.NotFoundError:
+        except elasticsearch.exceptions:
             return False
 
+    # TODO Эластик может вернуть менее 20 элементов
     def search_by_text(self, text: str) -> List[dict]:
         """
         Поиск постов по тексту, возвращает список элементов БД
@@ -50,5 +51,4 @@ class MyElastic:
                 }
             }
         })
-        result_ids = [{"id_": item["_id"], "id": item["_source"]["id"]} for item in result["hits"]["hits"]]
-        return result_ids
+        return [item["_source"]["id"] for item in result["hits"]["hits"]]
